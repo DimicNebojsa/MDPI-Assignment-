@@ -22,6 +22,7 @@ class Cat(BaseModel):
     url: str 
     width: int
     height: int   
+    breed_id: str
     
 class Breed(BaseModel):
     id: str
@@ -68,38 +69,32 @@ class Category(BaseModel):
 
 #extract.update_sql(1, verbose=True)
 
-@app.get("/sqlalchemy")
-def test_post(db: Session = Depends(get_db)):
-
-    posts = db.query(models.Post).all()
-    
-    return {"data": posts}  
-
-@app.get("/posts")
-def get_posts(db: Session = Depends(get_db)):
-    # cursor.execute(""" SELECT * FROM Posts """)
-    # posts = cursor.fetchall()
-    
-    posts = db.query(models.Post).all()
-    
-    return {"data": posts}
-
-@app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_posts(cat: Cat, db: Session = Depends(get_db)):
+#####
+@app.post("/cat", status_code=status.HTTP_201_CREATED)
+def create_cat(cat: Cat, db: Session = Depends(get_db)):
     #new_post = models.Cat(id=cat.id, 
     #                      url=cat.url, 
     #                      width=cat.width,
-    #                      height=cat.height)
+    #                      height=cat.height, 
+    #                      breed_id=cat.breed_id)
 
     new_post = models.Cat(**cat.dict())
-    print(new_post)
     db.add(new_post)
     db.commit()
     #db.refresh(new_post)
     return {"data": new_post}
 
-#####
-@app.get("/breed/{breed}")
+@app.post("/category", status_code=status.HTTP_201_CREATED)
+def create_breed(category: Category, db: Session = Depends(get_db)):
+
+    new_post = models.Category(**category.dict())
+    db.add(new_post)
+    db.commit()
+    #db.refresh(new_post)
+    return {"data": new_post}
+
+
+@app.get("/breed/get/{breed}")
 def get_breed(breed:str, db: Session=Depends(get_db)):
     breed = db.query(models.Breed).filter(models.Breed.id == breed).all()
     
@@ -123,16 +118,10 @@ def get_cat(id:str, db: Session=Depends(get_db)):
         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND)
     return {"cat": cat}
 
+    
+
 #####
 
-@app.get("/posts/{id}")
-def get_post(id: int, db: Session = Depends(get_db)):
-    post = db.query(models.Post).filter(models.Post.published == True).all()
-    print(post)
-    
-    if not post:
-        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND)
-    return {"data": post}
 
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, db: Session = Depends(get_db)) -> None:

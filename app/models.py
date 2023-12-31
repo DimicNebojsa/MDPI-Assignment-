@@ -19,7 +19,7 @@ class Cat(Base):
     url = Column(String, nullable=False)
     width = Column(Integer, nullable=False)
     height = Column(Integer, nullable=False)
-    breed_id = Column(String, nullable=False)
+    breed_id = Column(String, nullable=True)
     
 class Category(Base):
     __tablename__ = "Category"

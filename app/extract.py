@@ -1,5 +1,5 @@
 import requests
-from sqlalchemy import insert, Table, MetaData, Column, Integer, String
+from sqlalchemy import insert, Table, MetaData, Column, Integer, String, Select
 from database import engine
 
 
@@ -234,4 +234,5 @@ def update_sql(iter: int, verbose: bool) ->None:
     print('END....')
     
 #update_sql(5, verbose=True)
+
 
