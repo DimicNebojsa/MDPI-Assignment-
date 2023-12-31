@@ -7,8 +7,6 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 import extract
 
-GECKO_COIN_URL = "https://api.coingecko.com/api/v3/simple/price?ids={}&vs_currencies=usd"
-STAR_WARS_URL = "https://swapi.dev/api/"
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -23,59 +21,53 @@ class Cat(BaseModel):
     id: str
     url: str 
     width: int
-    height: int    
-
-extract.update_sql(10, verbose=True)
-
-@app.get("/starwars")
-def get_star_wars_data():
-    result = []
-    count = 1
-
-    for i in range(17,18):
-        star_wars_data = requests.get(STAR_WARS_URL + "people/" + str(i) + "/").json()
-        print(STAR_WARS_URL + "people/" + str(i) + "/")
-        result.append((count, star_wars_data))
-        count += 1
-    return result
-
-#result = get_star_wars_data()
-#print(result)
-#print(len(result))
-
-URL =  "https://api.thecatapi.com/v1/breeds"
-URL_SEARCH = "https://api.thecatapi.com/v1/images/search?limit=10&breed_ids={}&api_key="
-API_KEY = "live_LeTQOlg1Yf7kbymctS8792u6PliZpvMVMlRATtIONbuDIZ1MU0UANifkDzCGuzeU "
-cat_data = requests.get(URL).json()
-
-#breeds = []
-#for i in range(len(cat_data)):
-#    breeds.append(cat_data[i]["id"])
+    height: int   
     
-def breed_search(breed: str, limit: int) -> list[dict]:
-    breed_id = "breed_ids=" + breed
-    limit_size = "limit=" + str(limit)
-    URL = "https://api.thecatapi.com/v1/images/search?" + limit_size + "&" + breed_id + "&api_key="
-    #URL_TEST = "https://api.thecatapi.com/v1/images/search?limit=200&breed_ids=beng&page=100&api_key=live_LeTQOlg1Yf7kbymctS8792u6PliZpvMVMlRATtIONbuDIZ1MU0UANifkDzCGuzeU"
-    search_result = requests.get(URL + API_KEY).json()
-    return search_result, URL
+class Breed(BaseModel):
+    id: str
+    name: str
+    cfa_url: str
+    vetstreet_url: str
+    vcahospitals_url: str
+    temperament: str
+    origin: str
+    country_codes: str
+    description: str
+    life_span: str
+    indoor: int
+    lap: int
+    alt_names: str
+    adaptability: int
+    affection_level: int
+    child_friendly: int
+    dog_friendly: int
+    energy_level: int
+    grooming: int
+    health_issues: int
+    intelligence: int
+    shedding_level: int
+    social_needs: int
+    stranger_friendly: int
+    vocalisation: int
+    experimental: int
+    hairless: int
+    natural: int
+    rare: int
+    rex: int
+    suppressed_tail: int
+    short_legs: int
+    wikipedia_url: str
+    hypoallergenic: int
+    reference_image_id: str
+    imperial: str
+    metric: str   
+    
+class Category(BaseModel):
+    id: int
+    name: str     
 
-def search_all_breeds(breeds: list[str]) ->list[list[dict]]:
-    result = []
-    counter = 1
-    for breed in breeds:
-        print(str(counter) + " " + breed)
-        result.append(breed_search(breed, 1000))
-        counter += 1
-    return result    
+#extract.update_sql(1, verbose=True)
 
-#aaa, URL = breed_search("abys", 100)
-#aaa = search_all_breeds(breeds)
-
-#print(aaa[14])
-#print(breeds)
-   
-   
 @app.get("/sqlalchemy")
 def test_post(db: Session = Depends(get_db)):
 
@@ -91,16 +83,6 @@ def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
     
     return {"data": posts}
-#@app.post("/posts", status_code=status.HTTP_201_CREATED)
-#def create_posts(post: Post, db: Session = Depends(get_db)):
-    #new_post = models.Post(title=post.title, 
-    #                       content=post.content, 
-    #                       published=post.published)
-#    new_post = models.Post(**post.dict())
-#    db.add(new_post)
-#    db.commit()
-#    db.refresh(new_post)
-#    return {"data": new_post}
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(cat: Cat, db: Session = Depends(get_db)):
@@ -116,6 +98,32 @@ def create_posts(cat: Cat, db: Session = Depends(get_db)):
     #db.refresh(new_post)
     return {"data": new_post}
 
+#####
+@app.get("/breed/{breed}")
+def get_breed(breed:str, db: Session=Depends(get_db)):
+    breed = db.query(models.Breed).filter(models.Breed.id == breed).all()
+    
+    if not breed:
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND)
+    return {"breed": breed}
+
+@app.get("/category/{category}")
+def get_category(category:str, db: Session=Depends(get_db)):
+    category = db.query(models.Category).filter(models.Category.id == category).all()
+    
+    if not category:
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND)
+    return {"category": category}
+
+@app.get("/cat/{id}")
+def get_cat(id:str, db: Session=Depends(get_db)):
+    cat = db.query(models.Cat).filter(models.Cat.id == id).all()
+    
+    if not cat:
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND)
+    return {"cat": cat}
+
+#####
 
 @app.get("/posts/{id}")
 def get_post(id: int, db: Session = Depends(get_db)):
