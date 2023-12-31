@@ -172,10 +172,18 @@ def extract_breed(breed: dict) -> dict:
                 result[attr] = breeds[0][attr]
         return result        
     else:
-        return None                      
+        return None      
+    
+def cat_housekeeping(housekeeping: dict, cat: dict):
+    if cat['id'] not in housekeeping:
+        housekeeping[cat["id"]] = 1 
+    return housekeeping    
+                               
 
 def update_sql(iter: int, verbose: bool) ->None:
     print("STARTING.....")
+    
+    housekeeping = {}
     
     raw_data = get_raw_data(iter, URL_TEST, API_KEY_TEST, verbose=verbose)
      
@@ -201,7 +209,6 @@ def update_sql(iter: int, verbose: bool) ->None:
         try:
             with engine.connect() as conn: 
                 _ = conn.execute(insert(cat_table), cat, ) 
-                cat_counter += 1
                 if breed is not None:
                     _ = conn.execute(insert(breed_table), breed, )
                     breed_counter += 1 
@@ -210,18 +217,21 @@ def update_sql(iter: int, verbose: bool) ->None:
                 if cat_category is not None:
                     _ = conn.execute(insert(cat_category_table), cat_category, )    
                     cat_category_counter += 1
-                conn.commit()    
+                conn.commit()   
+                housekeeping = cat_housekeeping(housekeeping, cat) 
         except:
             #print("Issue with writing to SQL base...") 
+            #del housekeeping[str(cat["id"])]
+            #print(f"Cat with id {cat["id"]} deleted")
             pass
                 
         counter += 1     
-    print("Cat counter is: " + str(cat_counter))
+    print("Cat counter is: " + str(len(housekeeping)))
     print("Breed counte is: " + str(breed_counter))  
     print("Cat_Category counter is: " + str(cat_category_counter))
     print("Counter is: " + str(counter))
     
     print('END....')
     
-update_sql(1, verbose=True)
+#update_sql(5, verbose=True)
 

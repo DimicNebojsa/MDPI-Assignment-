@@ -25,7 +25,7 @@ class Cat(BaseModel):
     width: int
     height: int    
 
-extract.update_sql(1, verbose=True)
+extract.update_sql(10, verbose=True)
 
 @app.get("/starwars")
 def get_star_wars_data():
