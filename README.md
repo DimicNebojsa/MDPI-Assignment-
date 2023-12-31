@@ -7,4 +7,5 @@
 
 Some other description
 
-Additinal descriptions and HowTo
+Additional descriptions and HowTo
+
