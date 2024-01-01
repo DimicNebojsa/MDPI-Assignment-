@@ -5,15 +5,21 @@ from models import Post
 from database import engine, get_db
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-import extract
+from extract_class import Extract
 import app.schemas as schemas
+from create_tables import CreateTables
 
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-#extract.update_sql(1, verbose=True)
+URL_TEST = "https://api.thecatapi.com/v1/images/search?limit=100&api_key="
+API_KEY_TEST = "live_LeTQOlg1Yf7kbymctS8792u6PliZpvMVMlRATtIONbuDIZ1MU0UANifkDzCGuzeU"
+
+createTables = CreateTables()
+extract_class = Extract(URL_TEST, API_KEY_TEST, createTables)
+extract_class.update_sql(10, verbose=True)
 
 
 @app.post("/cat", status_code=status.HTTP_201_CREATED, response_model=schemas.CatRespone)
