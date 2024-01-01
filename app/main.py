@@ -1,8 +1,12 @@
 from fastapi import FastAPI, Depends, status, HTTPException, Response
+import requests
 import models
+from models import Post
 from database import engine, get_db
 from sqlalchemy.orm import Session
-import schemas
+from pydantic import BaseModel
+import extract
+import app.schemas as schemas
 
 
 models.Base.metadata.create_all(bind=engine)
