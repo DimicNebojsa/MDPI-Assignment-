@@ -33,7 +33,7 @@ line-length = 79
 
 select = [
       "ANN",     # flake8-annotations
-      #"D",       # pydocstyle
+      "D",       # pydocstyle
       "E",       # pycodestyle
       "F",       # Pyflakes
       ]
