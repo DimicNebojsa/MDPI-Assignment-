@@ -77,7 +77,7 @@ class Extract:
 
         try:
             search_result = requests.get(url + api_key).json()
-        except requests.HTTPError:
+        except:
             #print("SKIPPING...")    
             return None
         return search_result
@@ -226,7 +226,7 @@ class Extract:
                     conn.commit()   
                     housekeep = self._Extract__cat_housekeeping(housekeep, 
                                                                    cat) 
-            except requests.HTTPError:
+            except:
                 pass
             
             counter += 1     
