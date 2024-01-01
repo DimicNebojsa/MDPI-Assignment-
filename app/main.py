@@ -69,7 +69,7 @@ class Category(BaseModel):
 
 #extract.update_sql(1, verbose=True)
 
-#####
+
 @app.post("/cat", status_code=status.HTTP_201_CREATED)
 def create_cat(cat: Cat, db: Session = Depends(get_db)):
     #new_post = models.Cat(id=cat.id, 
@@ -200,22 +200,3 @@ def update_category(id: int, updated_category: Category, db: Session = Depends(g
     
     return {"message": "success"} 
 
-#####
-
-
-
-
-@app.put("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def update_post(id: int, updated_post: Post, db: Session = Depends(get_db)) ->None:
-    post_query = db.query(models.Post).filter(models.Post.id == id)
-    post = post_query.first()
-    
-    if post == None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"post with id: {id} does not exist")
-        
-    post_query.update(updated_post.dict(), synchronize_session=False)    
-    
-    db.commit()
-    
-    return {"message": "success"}   
