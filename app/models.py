@@ -1,19 +1,25 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
-from sqlalchemy.sql.expression import text
-from sqlalchemy.sql.sqltypes import TIMESTAMP
-from database import Base
+"""Creates ORM tables in line with SQL Schema.
 
-class Post(Base):
-    __tablename__ = "Post"
+Author: Nebojsa Dimic
+Date: 1/2/2024
+"""
+
+from sqlalchemy import Column, Integer, String, ForeignKey
+from database import Base
      
-    id = Column(Integer, primary_key=True, nullable=False)
-    title = Column(String, nullable=False)
-    content = Column(String, nullable=False)
-    published = Column(Boolean, server_default='TRUE', nullable=False)
-    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))  
-     
-     
-class Cat(Base):
+class Cat(Base):    
+    """Creates ORM table for Cat relation."""
+    """
+        Args:
+            None
+                
+        Excpetions:
+            None
+
+        Returns:
+            None
+        """
+    
     __tablename__ = "Cat"
     id = Column(String, primary_key=True, nullable=False)
     url = Column(String, nullable=False)
@@ -22,16 +28,58 @@ class Cat(Base):
     breed_id = Column(String, nullable=True)
     
 class Category(Base):
+    """Creates ORM table for Category relation."""
+    """
+        Args:
+            None
+                
+        Excpetions:
+            None
+
+        Returns:
+            None
+    """
+    
     __tablename__ = "Category"
     id = Column(Integer, primary_key=True, nullable=False)
     name = Column(String, nullable=False)    
 
 class Cat_Category(Base):
+    """Creates ORM table for Cat_Category relation."""
+    """
+        Args:
+            None
+                
+        Excpetions:
+            None
+
+        Returns:
+            None
+    """
+    
     __tablename__ = "Cat_Category"
-    cat_id = Column(String, ForeignKey("Cat.id", ondelete="CASCADE"), primary_key=True, nullable=False)
-    category_id = Column(Integer, ForeignKey("Category.id", ondelete="CASCADE"), primary_key=True, nullable=False)
+    cat_id = Column(String, 
+                    ForeignKey("Cat.id", ondelete="CASCADE"), 
+                    primary_key=True, 
+                    nullable=False)
+    category_id = Column(Integer, 
+                         ForeignKey("Category.id", ondelete="CASCADE"), 
+                        primary_key=True, 
+                        nullable=False)
 
 class Breed(Base):
+    """Creates ORM table for Breed relation."""
+    """
+        Args:
+            None
+                
+        Excpetions:
+            None
+
+        Returns:
+            None
+    """
+    
     __tablename__ = "Breed"
     id = Column(String, primary_key=True, nullable=False)
     name = Column(String, nullable=True)
@@ -70,6 +118,3 @@ class Breed(Base):
     reference_image_id = Column(String, nullable=True)
     imperial = Column(String, nullable=True) 
     metric = Column(String, nullable=True)
-  
-         
-
