@@ -1,4 +1,4 @@
-"""ETL procedure for CatAPI and inserting int PostgreSQL.
+"""ETL procedure for CatAPI and inserting into PostgreSQL.
 
 Raw data are collected from CatAPI. Data are tramsformed 
 for relation DB in PostgreSQL. 
