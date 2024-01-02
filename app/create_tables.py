@@ -137,4 +137,21 @@ class CreateTables:
                         Column("reference_image_id", String, nullable=True),
                         Column("imperial", String, nullable=True),
                         Column("metric", String, nullable=True))
-        return breed_table       
+        return breed_table    
+    
+    def create_Control_Table(self, table_name: str) -> Table:
+        """Creates SQLAlchemy table for Control relation."""
+        """
+            Args:
+                table_name (str): Name of table
+
+            Returns:
+                control_table: Table object for Cntrol relation 
+        """
+    
+        metadata_obj = MetaData()
+        control_table = Table(table_name, metadata_obj, 
+                    Column("cat_counter", Integer, primary_key=True, nullable=False),
+                    Column("breed_counter", Integer, nullable=False), 
+                    Column("cat_category_counter", Integer, nullable=False))
+        return control_table     

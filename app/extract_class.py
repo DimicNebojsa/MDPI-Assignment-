@@ -10,8 +10,8 @@ Date: 1/1/2024
 
 import requests
 from sqlalchemy import insert
-from database import engine
-from create_tables import CreateTables
+from app.database import engine
+from app.create_tables import CreateTables
 
 class Extract:
     """A class that extracts data from API and insert into SQL.
@@ -72,6 +72,10 @@ class Extract:
         self.cat_category_table = \
             createTables.create_Cat_Category_Table("Cat_Category")
         self.breed_table = createTables.create_Breed_Table("Breed")
+        self.control_table = createTables.create_Control_Table("Control")
+        self.cat_count = 0
+        self.cat_category_count = 0
+        self.breed_count = 0
 
     def __get_batch(self, url: str, api_key: str) -> list[dict]:
 
@@ -241,3 +245,19 @@ class Extract:
         print("   Breed instances: " + str(breed_counter))  
         print("   Cat_Category instances: " + str(cat_category_counter))
         print("   Total calls to CatAPI: " + str(counter))
+        self.cat_count = len(housekeep)
+        self.cat_category_count = cat_category_counter
+        self.breed_count = breed_counter
+        
+        try:
+            with engine.connect() as conn: 
+                _ = conn.execute(insert(self.control_table), {"cat_counter": self.cat_count, 
+                                                              "breed_counter": self.breed_count,
+                                                              "cat_category_counter": self.cat_category_count}, ) 
+                conn.commit()   
+
+        except:
+            pass
+        
+        
+        

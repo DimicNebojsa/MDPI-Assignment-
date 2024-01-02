@@ -5,7 +5,7 @@ Date: 1/2/2024
 """
 
 from sqlalchemy import Column, Integer, String, ForeignKey
-from database import Base
+from app.database import Base
      
 class Cat(Base):    
     """Creates ORM table for Cat relation."""
@@ -118,3 +118,21 @@ class Breed(Base):
     reference_image_id = Column(String, nullable=True)
     imperial = Column(String, nullable=True) 
     metric = Column(String, nullable=True)
+    
+class ControlTable(Base):
+    """Creates ORM control table."""
+    """
+        Args:
+            None
+                
+        Excpetions:
+            None
+
+        Returns:
+            None
+    """
+    
+    __tablename__ = "Control"
+    cat_counter = Column(Integer, primary_key=True, nullable=False)
+    breed_counter = Column(Integer, nullable=False)  
+    cat_category_counter =Column(Integer, nullable=False)      
