@@ -17,11 +17,11 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-URL_TEST = "https://api.thecatapi.com/v1/images/search?limit=100&api_key="
-API_KEY_TEST = "live_LeTQOlg1Yf7kbymctS8792u6PliZpvMVMlRATtIONbuDIZ1MU0UANifkDzCGuzeU"
+URL = "https://api.thecatapi.com/v1/images/search?limit=100&api_key="
+API_KEY = "live_LeTQOlg1Yf7kbymctS8792u6PliZpvMVMlRATtIONbuDIZ1MU0UANifkDzCGuzeU"
 
 createTables = CreateTables()
-extract_class = Extract(URL_TEST, API_KEY_TEST, createTables)
+extract_class = Extract(URL, API_KEY, createTables)
 extract_class.update_sql(1, verbose=True)
 
 

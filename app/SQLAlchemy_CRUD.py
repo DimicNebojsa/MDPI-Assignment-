@@ -30,12 +30,17 @@ def select(table: Table, attribute: str, condition: str) -> None:
     """    
     
     stmt = Select(table).where(table.columns[attribute] == condition)
-    print(stmt)
     with engine.connect() as conn:
         for row in conn.execute(stmt):
             print(row)
+
+stmt = Select(extract.cat_table)
+with engine.connect() as conn:
+    cat = conn.execute(stmt)
+cat = cat.fetchall()    
+print(cat[0])            
             
-#select(extract.cat_table, "id", "165ok6ESN")   
+select(extract.cat_table, "id", cat[0][0])   
 
 
 def join(table1: Table, 
@@ -204,4 +209,4 @@ def delete(table: Table,
         print("Problems with deleting from PostgreSQL....")   
         
 #insert(cat_table, input_dict)         
-delete(cat_table, input_dict, "id", "165ok6ESN")
+#delete(cat_table, input_dict, "id", "165ok6ESN")
