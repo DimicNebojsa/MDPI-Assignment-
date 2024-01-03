@@ -239,8 +239,7 @@ class Extract:
         
         print()
         print("Extract, transform and load procedure is done.")
-        print("Check SQL relations, it shoud have \
-              following unique instances:")        
+        print("Check SQL relations, counts should be:")        
         print("   Cat instances: " + str(len(housekeep)))
         print("   Breed instances: " + str(breed_counter))  
         print("   Cat_Category instances: " + str(cat_category_counter))
