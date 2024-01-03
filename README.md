@@ -9,16 +9,16 @@ Data are collected, transformed, and inserted into PostgreSQL database.
 Data in CatAPI are stored in non-relational database. Major documents in this design are:
 <br>
 <br>**Cat**
-    <br>id: str 
-	<br>url: str
-    <br>width: int
-    <br>heigh: int
-    <br>Breed : [] 	// can be empty or Breed document
-    <br>Category: [] 	//can be empty or Category document
+    <br>**id**: str 
+	<br>**url**: str
+    <br>**width**: int
+    <br>**height**: int
+    <br>**Breed** : [] 	// can be empty or Breed document
+    <br>**Category**: [] 	//can be empty or Category document
 <br>
 <br>**Category**
-<br>Id: int
-<br>Name: string
+<br>**id**: int
+<br>**name**: string
 <br>
 <br>**Breed**
 <br>[id, name, cfa_url, vetstreet_url, vcahospitals_url, temperament, origin, country_code, description, life_span, indoor, lap, alt_names, adaptability, affection_level, child_friendly, dog_friendly, energy_level, grooming, health_issues, intelligence, shedding_level, social_needs, stranger_friendly, vocalization, experimental, hairless, natural, rare, suppressed_tail, short_legs, wikipedia_url, hypoallergenic, reference_image_id, imperial, metric]
