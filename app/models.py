@@ -134,5 +134,5 @@ class ControlTable(Base):
     
     __tablename__ = "Control"
     cat_counter = Column(Integer, primary_key=True, nullable=False)
-    breed_counter = Column(Integer, nullable=False)  
-    cat_category_counter =Column(Integer, nullable=False)      
+    breed_counter = Column(Integer, nullable=True)  
+    cat_category_counter =Column(Integer, nullable=True)      

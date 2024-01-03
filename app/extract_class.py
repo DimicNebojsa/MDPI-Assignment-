@@ -251,9 +251,10 @@ class Extract:
         
         try:
             with engine.connect() as conn: 
-                _ = conn.execute(insert(self.control_table), {"cat_counter": self.cat_count, 
-                                                              "breed_counter": self.breed_count,
-                                                              "cat_category_counter": self.cat_category_count}, ) 
+                _ = conn.execute(insert(self.control_table), 
+                                 {"cat_counter": self.cat_count, 
+                                "breed_counter": self.breed_count,
+                                "cat_category_counter": self.cat_category_count}, ) 
                 conn.commit()   
 
         except:

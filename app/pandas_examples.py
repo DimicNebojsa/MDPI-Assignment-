@@ -119,7 +119,7 @@ class Pds:
                 Pandas Dataframe equivalent to Breed relation in SQL DB
         """
         breed_result = pds.pandas_select_table("Breed", 
-                                               ["id", "name", "description"])
+                                               ["id", "name", "description"]).head()
         return breed_result
     
     def test_cat(self) -> pd.DataFrame:
@@ -134,7 +134,7 @@ class Pds:
             Returns:
                 Pandas Dataframe equivalent to Cat relation in SQL DB
         """
-        cat_result = pds.pandas_select_table("Cat", ["id", "breed_id"])
+        cat_result = pds.pandas_select_table("Cat", ["id", "breed_id"]).head()
         return cat_result
     
     def test_category(self) -> pd.DataFrame:
@@ -164,21 +164,29 @@ class Pds:
             Returns:
                 Pandas Dataframe equivalent to Cat_Category relation in SQL DB
         """
-        cat_category_result = pds.pandas_select_table("Cat_Category")
+        cat_category_result = pds.pandas_select_table("Cat_Category").head()
         return cat_category_result
         
 
 pds = Pds()
 
 breed_result = pds.test_breed()
+print()
+print("TESTING BREED...")
 print(breed_result)
 
 cat_result = pds.test_cat()
+print()
+print("TESTING CAT...")
 print(cat_result)
 
 category_result = pds.test_category()
+print()
+print("TESTING CATEGORY...")
 print(category_result)
 
+print()
+print("TESTING CATEGORY...")
 cat_category_result = pds.test_cat_category()
 print(cat_category_result)
 
@@ -187,7 +195,7 @@ print(cat_category_result)
 merge_cat_breed = cat_result.merge(breed_result, 
                                    how='inner', 
                                    left_on='breed_id', 
-                                   right_on='id')
+                                   right_on='id').head()
 print(merge_cat_breed)
 
 merge_cat_category = cat_result.merge(cat_category_result, 
@@ -197,7 +205,7 @@ merge_cat_category = cat_result.merge(cat_category_result,
                                           category_result, 
                                           how = "inner", 
                                           left_on = "category_id", 
-                                          right_on = "id")
+                                          right_on = "id").head()
 merge_cat_category.columns = ["cat_id", 
                               "breed_id", 
                               "cat_id", 

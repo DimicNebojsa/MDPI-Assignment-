@@ -5,16 +5,23 @@ Date: 1/2/2024
 """
 
 from sqlalchemy import Select, Table, Insert, Update, Delete
-import extract
+from create_tables import CreateTables
+from extract_class import Extract
 from database import engine
 
-cat_table = extract.cat_table
-breed_table = extract.breed_table
-cat_category_table = extract.cat_category_table
-category_table = extract.category_table
+URL = "https://api.thecatapi.com/v1/images/search?limit=100&api_key="
+API_KEY = "live_LeTQOlg1Yf7kbymctS8792u6PliZpvMVMlRATtIONbuDIZ1MU0UANifkDzCGuzeU"
+
+createTables = CreateTables()
+extract_class = Extract(URL, API_KEY, createTables)     
+
+cat_table = extract_class.cat_table
+breed_table = extract_class.breed_table
+cat_category_table = extract_class.cat_category_table
+category_table = extract_class.category_table
 
 
-def select(table: Table, attribute: str, condition: str) -> None:
+def select(table: Table, attribute: str, condition: str= None) -> None:
     """Performs 'SELECT * from Table WHERE attribute = condition."""
     """
         Args:
@@ -34,19 +41,11 @@ def select(table: Table, attribute: str, condition: str) -> None:
         for row in conn.execute(stmt):
             print(row)
 
-stmt = Select(extract.cat_table)
-with engine.connect() as conn:
-    cat = conn.execute(stmt)
-cat = cat.fetchall()    
-print(cat[0])            
-            
-select(extract.cat_table, "id", cat[0][0])   
-
-
 def join(table1: Table, 
          table2: Table, 
          attribute1: str, 
-         attribute2: str) -> None:
+         attribute2: str, 
+         limit: int) -> None:
     """Performs INNER join between Table1 and Table2."""
     """
         Args:
@@ -63,9 +62,8 @@ def join(table1: Table,
     """  
     stmt = Select(table1).join(table2, 
                                table1.columns[attribute1] == table2.
-                               columns[attribute2])
-    #print(type(stmt))
-    #print(cat_table.c.id)
+                               columns[attribute2]).limit(limit)
+
     with engine.connect() as conn:
         for row in conn.execute(stmt):
             print(row)
@@ -97,7 +95,7 @@ def insert(table: Table, input_dict: dict) -> None:
     for key in keys:
         values[str(key.split(".")[1])] = values_temp[key]
         
-    print(values)    
+    #print(values)    
         
     insert_stmt = Insert(table).values(values)
     
@@ -107,20 +105,6 @@ def insert(table: Table, input_dict: dict) -> None:
             conn.commit()
     except:
         print("PK exists...")   
-
-
-input_dict = {"id": "165ok6ESN", 
-              "url": "www.carworld.com", 
-              "width": 1000, 
-              "height": 1200, 
-              "breed_id": "None"}
-input_dict2 = {"id": 100, "name": "test_test"}
-input_dict3 = {"cat_id": "165ok6ESN", "category_id": 100}
-
-#insert(cat_table, input_dict)    
-#insert(category_table, input_dict2)
-#insert(cat_category_table, input_dict3)
- 
  
 def update(table: Table, 
            input_dict: dict, 
@@ -163,7 +147,7 @@ def update(table: Table,
     except:
         print("Problems with writing to PostgreSQL....")   
         
-#update(cat_table, input_dict, "id", "165ok6ESN")      
+   
 
 def delete(table: Table, 
            input_dict: dict, 
@@ -210,3 +194,61 @@ def delete(table: Table,
         
 #insert(cat_table, input_dict)         
 #delete(cat_table, input_dict, "id", "165ok6ESN")
+
+def run_SQLAlchemy_queries() -> None:
+    """Performs queries from this SQLAlchemy_CRUD class."""
+    """
+        Args:
+            None
+        
+        Excpetions:
+            None  
+
+        Returns:
+            Nothing
+    """  
+    #run select query 
+    stmt = Select(cat_table)
+    with engine.connect() as conn:
+        cat = conn.execute(stmt)
+    cat = cat.fetchall()    
+    print()
+    print(f"INSTANCE OF CAT RELATION WHERE ID IS: {cat[0][0]}")
+    select(cat_table, "id", cat[0][0])  
+    
+    # run join query 
+    print()
+    print("RESULT OF INNER JOIN BETWEEN CAT AND BREED TABLE, LIMIT IS SET TO 10")
+    join(cat_table, breed_table, "breed_id", "id", 10)   
+    
+    # define test cases for input, update, delete
+    input_dict = {"id": "165ok6ESN", 
+                "url": "www.carworld.com", 
+                "width": 1000, 
+                "height": 1200, 
+                "breed_id": "None"}
+    input_dict1 = {"id": "165ok6ESN", 
+                "url": "www.carworld.com", 
+                "width": 1, 
+                "height": 2, 
+                "breed_id": "None"}
+    #input_dict2 = {"id": 100, "name": "test_test"}
+    #input_dict3 = {"cat_id": "165ok6ESN", "category_id": 100}
+    
+    print()
+    print("INSERTING NEW INSTANCE TO CAT TABLE")
+    print(f"instance is {input_dict}")
+    insert(cat_table, input_dict)  
+    print()
+    print(f"CHECKING IF INSTANCE WITH ID {input_dict["id"]} EXISTS:")
+    select(cat_table, "id", input_dict["id"])
+    print()
+    print(f"UPDATING INSTANCE WITH ID {input_dict1["id"]}")
+    update(cat_table, input_dict1, "id", input_dict1["id"])  
+    print(f"CHECKING IF INSTANCE WITH ID {input_dict1["id"]} IS UPDATED:") 
+    select(cat_table, "id", input_dict1["id"])
+    print()
+    print(f"DELETING INSTANCE WITH ID {input_dict["id"]}")
+    delete(cat_table, input_dict, "id", input_dict["id"])
+
+run_SQLAlchemy_queries()

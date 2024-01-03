@@ -196,10 +196,10 @@ Examples given in this file are made with purpose of showing basic pandas operat
 
 **Tests**
 
-Test are run with pytest by: 
+Test are run with pytest by from .app/tests directory: 
 
 ```
-pytest ./test/tests.py
+pytest tests.py
 ```
 Test are made to check for consistency of SQL relations and equality between SQL Alchemy queries with native SQL queries, as well as equality between panda joins and SQL Alchemy join queries.
 

@@ -12,7 +12,6 @@ import app.schemas as schemas
 from create_tables import CreateTables
 from extract_class import Extract
 
-
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -23,7 +22,6 @@ API_KEY = "live_LeTQOlg1Yf7kbymctS8792u6PliZpvMVMlRATtIONbuDIZ1MU0UANifkDzCGuzeU
 createTables = CreateTables()
 extract_class = Extract(URL, API_KEY, createTables)
 extract_class.update_sql(1, verbose=True)
-
 
 @app.post("/cat", status_code=status.HTTP_201_CREATED, response_model=schemas.CatRespone)
 def create_cat(cat: schemas.Cat, db: Session = Depends(get_db)) -> models.Cat:
