@@ -152,13 +152,17 @@ To test API routes, I was using Postman platform. Requests to FastAPI are sent i
 
 **Step 1. Run docker container with PostgreSQL image.**
 
-<mark>**docker run --rm -it -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=mdpi -d -p 5432:5432 postgres** </mark>
+```
+docker run --rm -it -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=mdpi -d -p 5432:5432 postgres
+```
 
 I was using PGAdmin as client to connect to PostgreSQL database.
 
 <br>**Step2. To start FastAP in folder .app/app run:**
 
-<mark>**uvicorn main:app –-reload**</mark>
+```
+uvicorn main:app –-reload
+```
 
 If there are no tables created in PostgreSQL database, SQLAlchemy will first create them and them it will run method “update_sql” from class_extract.py in order to fill Db with instances. 
 
@@ -172,7 +176,9 @@ CRUD operations using FastAPi can be checked using API platform (e.g. Postman) w
 
 To run defined SQL Alchemy CRUD operations FastAPI should be stopped and we simple run SQLAlchemy_CRUD.py file 
 
-<mark>**python3 SQLAlcehmy_CRUD.py**</mark>
+```
+python3 SQLAlcehmy_CRUD.py
+```
 
 I have chosen this solution not to clutter output while using FastAPI in main.py
 
@@ -181,7 +187,9 @@ I have chosen this solution not to clutter output while using FastAPI in main.py
 
 In order to run pandas framework, we can use 
 
-<mark>**python3 pandas_example.py**</mark>
+```
+python3 pandas_example.py
+```
 
 Examples given in this file are made with purpose of showing basic pandas operations and joins between different tables. 
 
@@ -189,7 +197,6 @@ Examples given in this file are made with purpose of showing basic pandas operat
 
 Test are run with pytest by: 
 
-<mark>**pytest ./test/tests.py**</mark>
 ```
 pytest ./test/tests.py
 ```
