@@ -190,6 +190,8 @@ Examples given in this file are made with purpose of showing basic pandas operat
 Test are run with pytest by: 
 
 <mark>**pytest ./test/tests.py**</mark>
-
+```
+pytest ./test/tests.py
+```
 Test are made to check for consistency of SQL relations and equality between SQL Alchemy queries with native SQL queries, as well as equality between panda joins and SQL Alchemy join queries.
 
