@@ -32,13 +32,13 @@ Data in CatAPI are stored in non-relational database. Major documents in this de
 Files in this project are:
 <br>
 <br><li>  <mark>`main.py`</mark> – FastAPI routes for CRUD operations are defined. Additionally, method for extract, transform and insert to PostgreSQL is called from this file.
-<br><li> <mark>databse.py</mark> – file which defines SQL Alchemy engine, Session and dependency
-<br><li> <mark>models.py</mark> – file which defines DB schema in SQL Alchemy
-<br><li> <mark>schemas.py</mark> – file which defines Pydantic objects 
-<br><li> <mark>extract_class.py</mark> – file that defines calls to CatApi, transforms data and inserts data in PostgreSQL relations. 
-<br><li> <mark>SQLAlchemy_CRUD.py</mark> – examples of CRUD operations in SQL Alchemy framework
-<br><li> <mark>pandas_examples.py</mark> – examples of data loading, transformation and joining in pandas framework
-<br><li> <mark>tests.py</mark> – test cases
+<br><li> <mark>`databse.py`</mark> – file which defines SQL Alchemy engine, Session and dependency
+<br><li> <mark>`models.py`</mark> – file which defines DB schema in SQL Alchemy
+<br><li> <mark>`schemas.py`</mark> – file which defines Pydantic objects 
+<br><li> <mark>`extract_class.py`</mark> – file that defines calls to CatApi, transforms data and inserts data in PostgreSQL relations. 
+<br><li> <mark>`SQLAlchemy_CRUD.py`</mark> – examples of CRUD operations in SQL Alchemy framework
+<br><li> <mark>`pandas_examples.py`</mark> – examples of data loading, transformation and joining in pandas framework
+<br><li> <mark>`tests.py`</mark> – test cases
 <br>
 
 
