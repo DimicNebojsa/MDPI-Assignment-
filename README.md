@@ -41,6 +41,7 @@ Files in this project are:
 <br><li> <mark>`tests.py`</mark> – test cases
 <br>
 
+API_URL and API_KEY are in `main.py` file.
 
 ### SQL schema
 
