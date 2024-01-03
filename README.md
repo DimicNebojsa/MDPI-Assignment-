@@ -66,7 +66,8 @@ Relational model used in our API is modeled as following:
 <br>**BREED**:
 <br>**id**:str - Primary Key, not null
 <br>...
-<br> ***for brevity and visibility I have ommited other attributes. Full list of attribites is in file <mark>'models.py'</mark>.    
+<br> ***for brevity and visibility I have ommited other attributes. Full list of attribites is in 
+file <mark>`models.py`</mark>.    
     
 <br>**CAT_CATEGORY**
 <br>**cat_id**: str	 - Primary Key,  not null, Foreign Key on Cat.id
